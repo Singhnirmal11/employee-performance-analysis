@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Performance Prediction</title>
+</head>
+<body>
+    <h1>Employee Performance Prediction</h1>
+    <form method="POST" action="/predict">
+        <label>Employee Satisfaction:</label>
+        <input type="number" name="EmpSatisfaction" required><br>
+        <label>Last Salary Hike (%):</label>
+        <input type="number" name="LastSalaryHikePercent" required><br>
+        <label>Work-Life Balance:</label>
+        <input type="number" name="WorkLifeBalance" required><br>
+        <label>Experience Years at Company:</label>
+        <input type="number" name="ExperienceYearsAtThisCompany" required><br>
+        <label>Years Since Last Promotion:</label>
+        <input type="number" name="YearsSinceLastPromotion" required><br>
+        <!-- Add more inputs for other features -->
+        <button type="submit">Predict</button>
+    </form>
+</body>
+</html>
