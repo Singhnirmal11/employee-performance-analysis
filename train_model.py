@@ -1,14 +1,25 @@
-from sklearn.ensemble import RandomForestClassifier
-import joblib
 import pandas as pd
+from sklearn.linear_model import LinearRegression
+import joblib
 
-# Example: Load sample data (replace with your actual data)
-data = pd.DataFrame({'feature1': [1, 2, 3], 'feature2': [4, 5, 6], 'target': [0, 1, 0]})
-X_train = data[['feature1', 'feature2']]
-y_train = data['target']
+# Simulate some training data
+data = {
+    'age': [25, 30, 45, 35, 50],
+    'experience': [2, 5, 20, 10, 30],
+    'projects': [3, 5, 10, 8, 12],
+    'hours': [40, 45, 50, 60, 55],
+    'training': [10, 20, 15, 25, 5],
+    'satisfaction': [0.6, 0.8, 0.9, 0.7, 0.4],
+    'performance': [70, 80, 95, 85, 65]
+}
 
-# Train and save the model
-model = RandomForestClassifier()
-model.fit(X_train, y_train)
+df = pd.DataFrame(data)
+
+X = df.drop('performance', axis=1)
+y = df['performance']
+
+model = LinearRegression()
+model.fit(X, y)
+
 joblib.dump(model, 'employee_performance_model.pkl')
-print("Model saved successfully.")
+print("Model saved as employee_performance_model.pkl")

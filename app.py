@@ -1,32 +1,32 @@
-from flask import Flask, request, jsonify
-from sklearn.ensemble import RandomForestClassifier
+from flask import Flask, request, render_template
 import joblib
-import pandas as pd
+import numpy as np
 
 app = Flask(__name__)
 
 # Load the trained model
 model = joblib.load('employee_performance_model.pkl')
-
-# Function to predict employee performance based on input features
-def predict_performance(features):
-    feature_names = ['age', 'experience']  # Replace with actual feature names
-    features_df = pd.DataFrame([features], columns=feature_names)
-    prediction = model.predict(features_df)
-    return prediction[0]
-
-# Default route
 @app.route('/')
 def home():
-    return "Welcome to Employee Performance Analysis! Use /predict endpoint for predictions."
-
-# Prediction route
+    return render_template('index.html')
 @app.route('/predict', methods=['POST'])
 def predict():
-    data = request.get_json(force=True)
-    features = data['features']
-    result = predict_performance(features)
-    return jsonify({'prediction': int(result)})
+    try:
+        # Collect features from form
+        age = float(request.form['age'])
+        experience = float(request.form['experience'])
+        projects = float(request.form['projects'])
+        hours = float(request.form['hours'])
+        training = float(request.form['training'])
+        satisfaction = float(request.form['satisfaction'])
+
+        features = np.array([[age, experience, projects, hours, training, satisfaction]])
+        prediction = model.predict(features)
+
+        return render_template('index.html', prediction_text=f"Predicted Performance Score: {prediction[0]:.2f}")
+
+    except Exception as e:
+        return render_template('index.html', prediction_text=f"Error: {str(e)}")
 
 if __name__ == "__main__":
     app.run(debug=True)
